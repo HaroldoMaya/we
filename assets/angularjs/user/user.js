@@ -154,11 +154,7 @@ define([
     var user = {};
 
     function getUser() {
-      if(!user){
-
-      }
-
-      return user;
+      return $rootScope.user;
     }
 
     function getCurrentUser(callback) {
