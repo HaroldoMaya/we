@@ -66,22 +66,6 @@ module.exports.routes = {
   // Standard RESTful routing
 
   // If no id is given, an array of all users will be returned
-  'get /users/:uid/messenger/:id?': {
-      controller    : 'messenger',
-      action        : 'index'
-  },
-  'post /users/:uid/messenger': {
-      controller    : 'messenger',
-      action        : 'create'
-  },
-  'put /users/:uid/messenger/:id?': {
-      controller    : 'messenger',
-      action        : 'update'
-  },
-  'delete /users/:uid/messenger/:id?': {
-      controller    : 'messenger',
-      action        : 'destroy'
-  },
 
   'get /users/current': {
     controller    : 'users',
@@ -149,6 +133,28 @@ module.exports.routes = {
   'get /messenger/start': {
       controller    : 'messenger',
       action        : 'start'
+  },
+
+  'get /messenger/contact-list': {
+      controller    : 'messenger',
+      action        : 'getContactList'
+  },
+
+  'get /messenger/:id?': {
+      controller    : 'messenger',
+      action        : 'index'
+  },
+  'post /messenger': {
+      controller    : 'messenger',
+      action        : 'create'
+  },
+  'put /messenger/:id?': {
+      controller    : 'messenger',
+      action        : 'update'
+  },
+  'delete /messenger/:id?': {
+      controller    : 'messenger',
+      action        : 'destroy'
   },
 
   // -- ACTIVITIES

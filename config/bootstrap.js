@@ -19,10 +19,8 @@ module.exports.bootstrap = function (cb) {
       // save user data in online users cache
       if(typeof sails.onlineusers[userId] === 'undefined' ){
         Users.findOneById(userId).done(function(err, user){
-              console.log(sails.onlineusers);
           sails.onlineusers[userId] = user.toJSON();
         });
-
       }
 
       // join user exclusive room to allow others users send

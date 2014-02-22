@@ -40,7 +40,6 @@ module.exports = {
     });
   },
 
-
   // add message
   create: function (req, res, next) {
     var message = {};
@@ -71,23 +70,36 @@ module.exports = {
     });
   },
 
-  start: function (req, res, next){
+  /**
+   * Start messenger
+   */
+  start: function(req, res){
+    if(!req.user) res.forbidden('forbidden');
+
+    res.send(200,'');
+    // TODO change to send to friends
+    sails.io.sockets.in('global').emit('contact:connect', {
+      status: 'connected',
+      contact: req.user.toJSON()
+    });
+  },
+
+  /**
+   * Get contact list
+   * TODO add suport to friends and roons
+   */
+  getContactList: function (req, res, next){
     var friendList = {};
-    friendList = sails.onlineusers
+    // get contact/frinend list
+    friendList = sails.util.clone(sails.onlineusers);
+
+    // remove current user from list
+    delete(friendList[req.user.id]);
 
     res.send(
       {
         friendList: friendList
       }
     );
-
-   // TODO change to send to friends
-    sails.io.sockets.in('global').emit('contact:connect', {
-      status: 'connected',
-      contact: req.user.toJSON()
-    });
-
   }
-
-
 };
