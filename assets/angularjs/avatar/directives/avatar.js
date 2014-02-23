@@ -12,44 +12,39 @@
       '$compile',
       function($compile) {
         return{
-          restrict:"E",
-          template: '<a href="{{avatarLink}}"> <img width="{{avatarWidth}}" height="{{avatarHeight}}" class="{{avatarClass}}" data-ng-src="{{avatarImageUrl}}"/> </a>',
-          scope: {
-            avatarId: '=avatar',
-          },
-          link: function (scope, elm, attrs) {
+          restrict:"EA",
+          link:function (scope, elm, attrs) {
 
-            function setVars(avatarId){
+            scope.$watch(attrs.avatar, function (avatarId) {
+              var tag;
+              var avatarLink = '';
+              var size_class;
+
               if(attrs['avatarLink']){
-                scope.avatarLink = attrs['avatarLink'];
+                avatarLink = attrs['avatarLink'];
               }
 
               switch(attrs['avatarSize']) {
                 case 'medium':
-                  scope.avatarWidth = '200px';
-                  scope.avatarHeight = '200px';
-                  scope.avatarClass = 'img-rounded avatar-medium';
+                  size_class = ' width="200px" height="200px" class="img-rounded avatar-medium" ';
                   break;
                 default:
-                  scope.avatarWidth = '50px';
-                  scope.avatarHeight = '50px';
-                  scope.avatarClass = 'img-rounded avatar-small';
+                  size_class = ' width="50px" height="50px" class="img-rounded avatar-small" ';
               }
 
               if ((avatarId !== null) && (avatarId !== undefined) && (avatarId !== '')) {
-                scope.avatarImageUrl = '/images/' + avatarId ;
+                tag = '<img '+size_class+' data-ng-src="/images/' + avatarId +'">';
               } else {
-                scope.avatarImageUrl = '/imgs/avatars/user-avatar.png';
+                tag = '<img '+size_class+' data-ng-src="/imgs/avatars/user-avatar.png">';
               }
-            }
 
-            setVars( scope.avatarId );
+              if(avatarLink){
+                tag = '<a href="'+avatarLink+'">'+ tag +'</a>';
+              }
 
-            scope.$watch(attrs.avatar, function (avatarId) {
-              setVars(avatarId);
+              elm.html( $compile(tag)(scope) );
             });
           }
-
         };
       }
     ]);
