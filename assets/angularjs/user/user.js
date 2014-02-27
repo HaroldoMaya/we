@@ -1,3 +1,4 @@
+
 define([
   'angular',
   '$socket',
@@ -68,9 +69,35 @@ define([
     }
   ]);
 
+  // --- SERVICES ---
+  angular.module("application.user")
+  .service("UserService", [
+    "UserResource",
+    function( UserResource ){
+      // users object to store users data
+      var users = {};
+
+      this.users = users;
+
+      this.getUser = function(id){
+        if(users[id]){
+          return this.users[id];
+        }else{
+          users[id] = {};
+
+          return users[id] = UserResource.get({
+            id: id
+          }, function(){
+            return users[id];
+          });
+        }
+      };
+
+    }
+  ]);
+
   // --- RESOURCES ---
   angular.module("application.user")
-  .service("userService", ["$resource"])
   .factory("UserResource", [
     "$resource",
     function ($resource) {
