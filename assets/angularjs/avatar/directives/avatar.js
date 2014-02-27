@@ -14,15 +14,12 @@
       function($compile, UserService) {
         return{
           restrict:"E",
-          template: '<a href="{{avatarLink}}"> <img width="{{avatarWidth}}" height="{{avatarHeight}}" class="{{avatarClass}}" data-ng-src="{{avatarImageUrl}}"/> </a>',
+          template: '<a href="{{avatarLink}}"> <img width="{{avatarWidth}}" height="{{avatarHeight}}" class="{{avatarClass}}" src="/imgs/avatars/user-avatar.png" data-ng-src="{{avatarImageUrl}}"/> </a>',
           scope: {
             userId: '=userId',
           },
           link: function (scope, elm, attrs) {
             var user = {};
-
-            // default avatar image
-            scope.avatarImageUrl = '/imgs/avatars/user-avatar.png';
 
             if(scope.userId){
               getUserAvatarId(scope.userId);
