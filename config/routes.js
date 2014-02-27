@@ -169,6 +169,12 @@ module.exports.routes = {
       action        : 'getPublicMessages'
   },
 
+  // Send a message to show writing status
+  'post /messenger/user/writing': {
+      controller    : 'messenger',
+      action        : 'emitIamWriting'
+  },
+
   // -- ROOMS
 
   'get /rooms/:id?': {

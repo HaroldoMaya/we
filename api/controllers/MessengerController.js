@@ -191,5 +191,49 @@ module.exports = {
         friendList: friendList
       }
     );
+  },
+
+  /**
+   * I am writing!
+   * Socket.io
+   * Send 'user:writing' event
+   */
+  emitIamWriting: function (req, res, next){
+
+    var toUserId = req.param('toUserId');
+    var toRoom = req.param('toRoom');
+    var toGlobal = req.param('global');
+
+    if(!toUserId && !toRoom && !toGlobal){
+      return res.badRequest('Bad Request');
+    }
+
+    if(toUserId){
+      //var fromUserId = socket.handshake.session.passport.user;
+
+      sails.io.sockets.in('user_' + toUserId).emit(
+        'user:writing',
+        {
+          user: {
+            id: req.session.passport.user
+          }
+        }
+      );
+    }
+
+    if(toRoom){
+      // TODO
+    }
+
+    if(toGlobal){
+      //res.send(200,'');
+      // TODO change to send to friends
+      sails.io.sockets.in('global').emit('user:writing', {
+        user: req.user
+      });
+    }
+
+    res.send(200,'');
   }
+
 };

@@ -53,7 +53,7 @@
               }
 
               if ((scope.avatarId !== null) && (scope.avatarId !== undefined) && (scope.avatarId !== '')) {
-                scope.avatarImageUrl = '/images/' + scope.avatarId ;
+                scope.avatarImageUrl = '/images/' + scope.avatarId;
               }
             }
 
