@@ -32,21 +32,26 @@ module.exports.bootstrap = function (cb) {
     // TODO change to userId friends room
     socket.join('global');
 
-    socket.on('disconnect', function () {
-        console.log('Disconect!!! ');
-        if(userId){
-          // TODO change to send to friends
-          sails.io.sockets.in('global').emit('contact:disconnect', {
-              status: 'disconected',
-              contact: {
-                id: userId
-              }
-          });
+    // Public room
+    // TODO make this dynamic and per user configurable
+    socket.join('public');
 
-          console.log('sned Disconect!!! ');
-          // remove user from users online
-          delete sails.onlineusers[userId];
-        }
+
+    socket.on('disconnect', function () {
+      console.log('Disconect!!! ');
+      if(userId){
+        // TODO change to send to friends
+        sails.io.sockets.in('global').emit('contact:disconnect', {
+          status: 'disconected',
+          contact: {
+            id: userId
+          }
+        });
+
+        console.log('sned Disconect!!! ');
+        // remove user from users online
+        delete sails.onlineusers[userId];
+      }
 
     });
   });

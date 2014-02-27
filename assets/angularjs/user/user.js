@@ -160,7 +160,8 @@ define([
   .factory('SessionService',[
     '$resource',
     '$rootScope',
-    function($resource, $rootScope){
+    'UserService',
+    function($resource, $rootScope, UserService){
 
     var service = $resource('/users/:param',{},{
       'login': {

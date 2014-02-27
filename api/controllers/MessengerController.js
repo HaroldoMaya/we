@@ -40,6 +40,80 @@ module.exports = {
     });
   },
 
+  /**
+   * Return last messages between logged in user and :uid user
+   */
+  messagesWithUser: function (req,res){
+
+    var uid = req.param('uid');
+
+    // return forbiden
+    if(!uid) return res.notFound('No messages found');
+
+    Messages.find({
+      where: {
+        or: [
+          { fromId: uid,
+            toId: {
+              contains: req.user.id
+            }
+
+          },
+          {
+            fromId: req.user.id,
+            toId: {
+              contains: uid
+            }
+          }
+        ]
+      },
+    })
+    .limit(15)
+    .sort('createdAt DESC')
+    .done(function(err, messages) {
+
+      // Error handling
+      if (err) {
+        return console.log(err);
+      }
+      // Found multiple messages!
+      if (messages) {
+        res.json({
+          messages: messages
+        });
+      }
+    });
+  },
+
+
+  /**
+   * Return last messages between logged in user and :uid user
+   */
+  getPublicMessages: function (req,res){
+    Messages.find({
+      where: {
+        or: [
+          { fromId: null },
+          { toId: null }
+        ]
+      },
+    })
+    .limit(10)
+    .sort('createdAt DESC')
+    .done(function(err, messages) {
+      // Error handling
+      if (err) {
+        return console.log(err);
+      }
+      // Found multiple messages!
+      if (messages) {
+        res.json({
+          messages: messages
+        });
+      }
+    });
+  },
+
   // add message
   create: function (req, res, next) {
     var message = {};
@@ -53,13 +127,29 @@ module.exports = {
         res.send(500, {error: res.i18n("DB Error") });
       } else {
 
-        if(req.isSocket){
+        // TODO add suport to rooms
+        if(message.toId){
+          // if has toId send toId
           sails.io.sockets.in('user_' + newMessage.toId[0]).emit(
             'receive:message',
             {
               message: newMessage
             }
           );
+        } else {
+          console.log('sendo to public');
+          // send to public room
+          sails.io.sockets.in('public').emit(
+            'receive:public:message',
+            {
+              message: newMessage
+            }
+          );
+        }
+
+
+        if(req.isSocket){
+
         } else {
           res.send({
             message: newMessage

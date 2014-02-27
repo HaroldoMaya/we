@@ -157,6 +157,57 @@ module.exports.routes = {
       action        : 'destroy'
   },
 
+  // Return a list of messages between authenticated user and :uid user
+  'get /messenger/messages/with-user/:uid?': {
+      controller    : 'messenger',
+      action        : 'messagesWithUser'
+  },
+
+  // Return messages without toIds and roomIds
+  'get /messenger/messages/public': {
+      controller    : 'messenger',
+      action        : 'getPublicMessages'
+  },
+
+  // -- ROOMS
+
+  'get /rooms/:id?': {
+      controller    : 'rooms',
+      action        : 'index'
+  },
+  'post /rooms': {
+      controller    : 'rooms',
+      action        : 'create'
+  },
+  'put /rooms/:id?': {
+      controller    : 'rooms',
+      action        : 'update'
+  },
+  'delete /rooms/:id?': {
+      controller    : 'rooms',
+      action        : 'destroy'
+  },
+
+  // get users in one room
+  'get /rooms/users/': {
+      controller    : 'rooms',
+      action        : 'usersGet'
+  },
+
+  // add user in room
+  'post /rooms/users/:id?': {
+      controller    : 'rooms',
+      action        : 'userAdd'
+  },
+
+  // remove user from room
+  'delete /rooms/users/:id?': {
+      controller    : 'rooms',
+      action        : 'userRemove'
+  },
+
+
+
   // -- ACTIVITIES
   'post /post': {
     controller    : 'post',
