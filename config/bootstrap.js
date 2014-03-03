@@ -19,6 +19,7 @@ module.exports.bootstrap = function (cb) {
       // save user data in online users cache
       if(typeof sails.onlineusers[userId] === 'undefined' ){
         Users.findOneById(userId).done(function(err, user){
+          user.messengerStatus = 'online';
           sails.onlineusers[userId] = user.toJSON();
         });
       }
