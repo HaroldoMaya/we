@@ -166,11 +166,16 @@ module.exports = {
   start: function(req, res){
     if(!req.user) res.forbidden('forbidden');
 
+    var contact = req.user.toJSON();
+    // set user status
+    contact.messengerStatus = 'online';
+
     res.send(200,'');
+
     // TODO change to send to friends
     sails.io.sockets.in('global').emit('contact:connect', {
       status: 'connected',
-      contact: req.user.toJSON()
+      contact: contact
     });
   },
 

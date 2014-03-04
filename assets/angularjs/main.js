@@ -38,7 +38,7 @@ require.config({
     'ng-table': '../bower_components/ng-table/ng-table',
     'angular-bootstrap': '../bower_components/angular-bootstrap/ui-bootstrap-tpls',
     'we-messenger': '../bower_components/we-messenger/messenger',
-    'moment': '../bower_components/moment/moment',
+    moment: '../bower_components/moment/moment',
     'angular-moment': '../bower_components/angular-moment/angular-moment'
   },
   shim: {
@@ -58,7 +58,6 @@ require.config({
         'bootstrap'
       ]
     },
-
     'angular-moment': {
       deps: [
         'angular',
